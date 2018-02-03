@@ -80,7 +80,7 @@ readNumbers : IO $ Maybe (Nat, Nat)
 readNumbers = do Just num1 <- readNumber | Nothing => pure Nothing
                  Just num2 <- readNumber | Nothing => pure Nothing
                  pure $ Just (num1, num2)
-                 ?result
+                 --?result
 
 {-                 
                       
@@ -91,5 +91,6 @@ Process idris~ segmentation fault: 11
 :D
                  
 -}                
+
 
 
