@@ -60,8 +60,16 @@ data Command : Schema -> Type where
   Get : Integer -> Command schema
   Quit : Command schema
 
+parsePrefix : (schema : Schema) -> String -> Maybe (SchemaType schema, String)
+
+parseBySchema : (schema : Schema) -> String -> Maybe $ SchemaType schema
+parseBySchema schema input = case parsePrefix schema input of
+                                  Just (res, "") => Just res
+                                  Just _ => Nothing
+                                  Nothing => Nothing
+
 parseCommand : (schema : Schema) -> String -> String -> Maybe $ Command schema
-parseCommand schema "add" rest = Just $ Add $ ?parseBySchema rest
+parseCommand schema "add" rest = Just $ Add $ parseBySchema schema rest
 parseCommand schema "get" val = if all isDigit $ unpack val then Just $ Get $ cast val else Nothing 
 parseCommand schema "quit" "" = Just Quit
 parseCommand _ _ _ = Nothing
@@ -87,9 +95,9 @@ addToStore (MkData schema size store) newitem =
                                                        -}
 
 display : SchemaType schema -> String
-display {schema = SString} item = ?display_rhs_1
-display {schema = SInt} item = ?display_rhs_3
-display {schema = (x .+. y)} item = ?display_rhs_4
+display {schema = SString} item = show item
+display {schema = SInt} item = show item
+display {schema = (x .+. y)} (iteml, itemr) = display iteml ++ ", " ++ display itemr
 
 getEntry : (pos : Integer) -> (store : DataStore) -> Maybe (String, DataStore)
 getEntry pos store = 
