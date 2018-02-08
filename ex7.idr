@@ -62,14 +62,16 @@ data Command : Schema -> Type where
 
 parsePrefix : (schema : Schema) -> String -> Maybe (SchemaType schema, String)
 
-parseBySchema : (schema : Schema) -> String -> Maybe $ SchemaType schema
+parseBySchema : (schema : Schema) -> String -> SchemaType schema
 parseBySchema schema input = case parsePrefix schema input of
                                   Just (res, "") => Just res
                                   Just _ => Nothing
                                   Nothing => Nothing
 
 parseCommand : (schema : Schema) -> String -> String -> Maybe $ Command schema
-parseCommand schema "add" rest = Just $ Add $ parseBySchema schema rest
+parseCommand schema "add" rest = case parseBySchema schema rest of
+                                      Nothing => Nothing
+                                      Just restok => Just $ Add restok
 parseCommand schema "get" val = if all isDigit $ unpack val then Just $ Get $ cast val else Nothing 
 parseCommand schema "quit" "" = Just Quit
 parseCommand _ _ _ = Nothing
