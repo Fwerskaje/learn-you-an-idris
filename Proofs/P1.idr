@@ -78,3 +78,11 @@ checkEqNat'' (S k) Z = No notSZ
 checkEqNat'' (S k) (S j) = case checkEqNat'' k j of
                                 (Yes Refl) => Yes Refl
                                 (No contra) => No (notSS contra)
+
+exactLength2 : (len : Nat) -> (input : Vect m a) -> Maybe $ Vect len a
+exactLength2 {m} len input = case decEq m len of
+                                  (Yes Refl) => Just input
+                                  (No contra) => Nothing
+
+removeDecElem : DecEq a => a -> Vect (S n) a -> Vect n a
+removeDecElem x xs = ?removeDecElem_rhs

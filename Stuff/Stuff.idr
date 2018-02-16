@@ -15,7 +15,3 @@ id' x = x
 
 answer : (ts : List Type ** HList ts)
 answer = ([String, Nat] ** ["Answer: ", 42])
-
-test : Type -> Bool
-test Nat = ?test_rhs
-test _ = ?t2

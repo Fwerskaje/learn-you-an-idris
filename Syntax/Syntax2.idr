@@ -24,6 +24,13 @@ checkX k = ifThenElse (k > fromInteger 4) (Delay ">4") (Delay "<4")
 listGen : List Nat
 listGen = [x * x| x <- [1..5]]
 
+{-
+
+listGen : List Nat
+listGen = enumFromTo (fromInteger 1) (fromInteger 5) >>= (\x => pure (x * x))
+
+-}
+
 main : IO ()
 main = do
   call g on 10 and 5
