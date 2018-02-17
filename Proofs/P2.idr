@@ -29,11 +29,22 @@ hasZero : Elem 0 [1,2,3]
 hasZero = There (There (There ?zero))
 -}
 
+not_lte : (j : Nat) -> (k : Nat) -> (contra : Not (LTE (S k) (S j))) -> Not (LTE k j)
+not_lte j k contra prf = contra (LTESucc prf)
 
-not_in_nil : DecEq a => (x : a) -> Elem v xs -> Void
-not_in_nil x y = ?not_in_nil_rhs
+not_lte__gt : Not (x `LTE` y) -> x `GT` y
+not_lte__gt {x = Z} {y} contra = void $ contra LTEZero 
+not_lte__gt {x = (S k)} {y = Z} contra = LTESucc LTEZero
+not_lte__gt {x = (S k)} {y = (S j)} contra = LTESucc $ not_lte__gt $ not_lte j k contra
 
-isElem : DecEq a => (x : a) -> (Vect n a) -> Dec $ Elem v xs 
-isElem x [] = No (not_in_nil x)
-isElem x (y :: xs) = ?isElem_rhs_2
- 
+data Sorted : (xs : Vect n Nat) -> Type where
+  SortedEmpty : Sorted []
+  SortedOne : (x : Nat) -> Sorted [x]
+  SortedMany : (x : Nat) -> (y : Nat) -> Sorted (y :: zs) -> (x `LTE` y) -> Sorted (x :: y :: zs)
+  
+sortedVect12 : Sorted [1,2]
+sortedVect12 = SortedMany 1 2 (SortedOne 2) (LTESucc LTEZero)
+
+sortedVec012 : Sorted [0,1,2]
+sortedVec012 = SortedMany _ _ sortedVect12 LTEZero
+
