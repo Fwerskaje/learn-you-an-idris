@@ -13,6 +13,3 @@ removeElem {n = (S k)} value (y :: ys) (There later) = y :: removeElem value ys 
 removeElem_auto : (value : a) -> (xs : Vect (S n) a) -> {auto prf : Elem value xs} -> Vect n a
 removeElem_auto value xs {prf} = removeElem value xs prf
 
-isElem : DecEq ty => (value : ty) -> (xs : Vect n ty) -> Dec (Elem value xs)
-isElem value xs = ?isElem_rhs
-
