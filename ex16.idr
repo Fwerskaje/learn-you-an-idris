@@ -29,7 +29,9 @@ describeListEnd input with (listLast input)
   describeListEnd [] | Empty = "Empty"
   describeListEnd (xs ++ [x]) | (NonEmpty xs x) = "Non-empty, initial portion = " ++ show xs
   
-
-
-
+myReverse : List a -> List a
+myReverse xs with (listLast xs)
+  myReverse [] | Empty = []
+  myReverse (ys ++ [x]) | (NonEmpty ys x) = x :: myReverse ys
+  
 
