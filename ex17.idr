@@ -17,3 +17,11 @@ splitList input = splitListHelp input input
               SplitOne {x} => SplitPair [item] [x]
               SplitPair lefts rights => SplitPair (item :: lefts) rights
         splitListHelp _ items = SplitPair [] items
+
+mergeSort : Ord a => List a -> List a
+mergeSort xs with (splitList xs)
+  mergeSort [] | SplitNil = []
+  mergeSort [x] | SplitOne = [x]
+  mergeSort (lefts ++ rights) | (SplitPair lefts rights) =
+            merge (mergeSort lefts) (mergeSort rights)
+
