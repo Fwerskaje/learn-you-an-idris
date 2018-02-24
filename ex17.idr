@@ -24,4 +24,6 @@ mergeSort xs with (splitList xs)
   mergeSort [x] | SplitOne = [x]
   mergeSort (lefts ++ rights) | (SplitPair lefts rights) =
             merge (mergeSort lefts) (mergeSort rights)
+            
+
 
