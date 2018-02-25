@@ -23,7 +23,7 @@ fieldToString : Vect columns (Vect rows String) -> String
 fieldToString xs = foldr (\vec, acc => (foldr (++) "\n" vec) ++ acc) "" xs
 
 Show Cell where
-  show Bactery = "o"
+  show Bactery = "☺"
   show Food = "*"
   show None = " "
   
@@ -33,7 +33,7 @@ Show Field where
        "POPULATION: " ++ show population ++ 
        " TEMPERATURE: " ++ show temperature ++ 
        " NUMBER OF FOOD: " ++ show food ++ "\n" ++
-       (fieldToString (map (map show) field))
+       fieldToString (map (map show) field)
 
 
 f : Field
