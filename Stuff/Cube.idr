@@ -18,18 +18,15 @@ Show Colour where
   show Orange = "O"
   show White = "W"
   show Yellow = "Y"
-  
+
 coloursTable : Vect 6 (Nat, Colour)
-coloursTable = 
+coloursTable =
   [(0, Green),
    (1, Red),
    (2, Blue),
    (3, Orange),
    (4, White),
-   (5, Yellow)]
-
-notZero : (the Nat 7 = 0) -> Void
-notZero Refl impossible
+   (5, Yellow)] 
 
 lookupColour : (n : Nat) -> (Nat, Colour)
 lookupColour n = Vect.index k coloursTable 
@@ -38,7 +35,9 @@ lookupColour n = Vect.index k coloursTable
          case natToFin nMod 6 of
            Nothing => FZ -- I dont know, maybe I shoud prove that nMod 6 is always >= 6?
            (Just x) => x
-
+         where notZero : (the Nat 7 = 0) -> Void
+               notZero Refl impossible
+                 
 Enum Colour where
     fromNat = snd . lookupColour 
     toNat Green = 0
@@ -49,16 +48,32 @@ Enum Colour where
     toNat Yellow = 5
     pred = fromNat . Nat.pred . toNat
 
-Eq Colour where
-  (==) c1 c2 = (toNat c1) == (toNat c2)
-  
-Ord Colour where
-  compare c1 c2 = (toNat c1) `compare` (toNat c2)
-
-  
 {-
-data Side : Colour -> Type where
-  SideZero : Side Green
-  SuccSide : Side 
+data Scheme = 
+  L | R | F | U | D
+
+data Sides = One
+           | Two 
+           | Three 
+        
+SidesToNat : Sides -> Nat           
+SidesToNat One = 1
+SidesToNat Two = 2
+SidesToNat Three = 3
+
+colourN : Nat -> Colour -> Colour
+colourN n = fromNat . (+n) . toNat
+
+colours : (c : Colour) -> (scm : Scheme) -> (s : Sides) -> Vect (SidesToNat s) Colour
+-}
+
+{-
+record Cell (coloursNum : Nat) where
+  constructor MkCell'
+  mainColour : Colour
+  colours : Vect coloursNum Colour
+  
+MkCell : (c : Colour) -> (n : Nat) -> Cell n
+MkCell c n = MkCell' c ?d
 -}
  

@@ -8,3 +8,4 @@ inv f (f x) (Im x) = x
 
 r1 : Bool
 r1 = Force $ inv ((||) False) True (Im True)
+
